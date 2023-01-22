@@ -1,3 +1,5 @@
+import { IEmission, TFriends, TRegions } from "types";
+
 class Stalcraft {
   private demoUrl: string = "https://dapi.stalcraft.net";
   private prodUrl: string = "https://eapi.stalcraft.net";
@@ -20,50 +22,49 @@ class Stalcraft {
   }
 
   public async getRegions() {
-    const res = await this.request(`/regions`);
-    return res;
+    const { data, error } = await this.request(`regions`);
+    return { data: data as TRegions, error };
   }
 
   public async getAuctionHistory(region: string, item: string) {
-    const res = await this.request(`/${region}/auction/${item}/history`);
+    const res = await this.request(`${region}/auction/${item}/history`);
     return res;
   }
 
   public async getAuctionLots(region: string, item: string) {
-    const res = await this.request(`/${region}/action/${item}/lots`);
-    console.log(`${this.demoUrl}/${region}/action/${item}/lots`);
+    const res = await this.request(`${region}/action/${item}/lots`);
 
     return res;
   }
 
   public async getCharacters(region: string, userToken: string) {
-    const res = await this.request(`/${region}/characters`, "GET", undefined, userToken);
+    const res = await this.request(`${region}/characters`, "GET", undefined, userToken);
     return res;
   }
 
   public async getClan(region: string, clanId: string) {
-    const res = await this.request(`/${region}/clan/${clanId}/info`);
+    const res = await this.request(`${region}/clan/${clanId}/info`);
     return res;
   }
 
   public async getClanMembers(region: string, clanId: string) {
-    const res = await this.request(`/${region}/clan/${clanId}/members`);
+    const res = await this.request(`${region}/clan/${clanId}/members`);
     return res;
   }
 
   public async getClans(region: string) {
-    const res = await this.request(`/${region}/clans`);
+    const res = await this.request(`${region}/clans`);
     return res;
   }
 
   public async getEmission(region: string) {
-    const res = await this.request(`/${region}/emission`);
-    return res;
+    const { data, error } = await this.request(`${region}/emission`);
+    return { data: data as IEmission, error };
   }
 
-  public async getFriends(region: string, character: string) {
-    const res = await this.request(`/${region}/friends/${character}`);
-    return res;
+  public async getFriends(region: string, character: string, userToken: string) {
+    const { data, error } = await this.request(`${region}/friends/${character}`, "GET", undefined, userToken);
+    return { data: data as TFriends, error };
   }
 }
 
