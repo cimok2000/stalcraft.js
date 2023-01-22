@@ -1,0 +1,28 @@
+{
+  "name": "@cimok/faceit.js",
+  "version": "1.0.1",
+  "description": "FaceIT API Wrapper",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "nodemon ./src/index.ts",
+    "prettify": "npx prettier --write \"./**/*.ts\" && npx prettier --write \"./**/*.json\"",
+    "build": "tsc"
+  },
+  "keywords": [
+    "faceit",
+    "api"
+  ],
+  "author": "cimok",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^18.11.18",
+    "axios": "^0.24.0",
+    "chalk": "^4.1.2",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
