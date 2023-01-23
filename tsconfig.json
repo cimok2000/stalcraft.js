@@ -13,5 +13,6 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "baseUrl": "."
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }
