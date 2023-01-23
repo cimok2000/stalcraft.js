@@ -1,4 +1,4 @@
-import { IEmission, TFriends, TRegions } from "types";
+import { IEmission, TFriends, TRegions, TCharacters, IClan, TClanMembers, IClans, IAuctionLots, IAuctionHistory, IError } from "types";
 
 class Stalcraft {
   private demoUrl: string = "https://dapi.stalcraft.net";
@@ -14,10 +14,13 @@ class Stalcraft {
         headers: {
           Authorization: userToken ? `Bearer ${userToken}` : `Bearer ${this.appToken}`,
         },
-      })
+      });
+      if (!req.ok) {
+        return { data: null, error: await req.json() as IError };
+      }
       return { data: await req.json(), error: null };
     } catch (error) {
-      return { data: null, error: error };
+      return { data: null, error: error as IError };
     }
   }
 
@@ -27,34 +30,33 @@ class Stalcraft {
   }
 
   public async getAuctionHistory(region: string, item: string) {
-    const res = await this.request(`${region}/auction/${item}/history`);
-    return res;
+    const { data, error } = await this.request(`${region}/auction/${item}/history`);
+    return { data: data as IAuctionHistory, error };
   }
 
   public async getAuctionLots(region: string, item: string) {
-    const res = await this.request(`${region}/action/${item}/lots`);
-
-    return res;
+    const { data, error } = await this.request(`${region}/action/${item}/lots`);
+    return { data: data as IAuctionLots, error };
   }
 
   public async getCharacters(region: string, userToken: string) {
-    const res = await this.request(`${region}/characters`, "GET", undefined, userToken);
-    return res;
+    const { data, error } = await this.request(`${region}/characters`, "GET", undefined, userToken);
+    return { data: data as TCharacters, error };
   }
 
   public async getClan(region: string, clanId: string) {
-    const res = await this.request(`${region}/clan/${clanId}/info`);
-    return res;
+    const { data, error } = await this.request(`${region}/clan/${clanId}/info`);
+    return { data: data as IClan, error };
   }
 
-  public async getClanMembers(region: string, clanId: string) {
-    const res = await this.request(`${region}/clan/${clanId}/members`);
-    return res;
+  public async getClanMembers(region: string, clanId: string, userToken: string) {
+    const { data, error } = await this.request(`${region}/clan/${clanId}/members`, "GET", undefined, userToken);
+    return { data: data as TClanMembers, error };
   }
 
   public async getClans(region: string) {
-    const res = await this.request(`${region}/clans`);
-    return res;
+    const { data, error } = await this.request(`${region}/clans`);
+    return { data: data as IClans, error };
   }
 
   public async getEmission(region: string) {
