@@ -82,13 +82,23 @@ interface IError {
   details: object;
 }
 
+class Utils {
+    public generateOAuthUrl(appId: string, redirectUrl: string): string {
+        return `https://exbo.net/oauth/authorize?client_id=${appId}&redirect_uri=${redirectUrl}&scope=&response_type=code`;
+    }
+}
+
+/**
+ * Implementation
+ */
 class Stalcraft {
+  private utils: Utils = new Utils();
   private demoUrl: string = "https://dapi.stalcraft.net";
   private prodUrl: string = "https://eapi.stalcraft.net";
   private githubDbUrl: string = "https://api.github.com/repos/EXBO-Studio/stalcraft-database/contents/";
   private url: string;
 
-  constructor(private appToken: string, demoMode: boolean = false) {
+  constructor(private appToken: string, private appId: string, demoMode: boolean = false) {
     this.url = demoMode ? this.demoUrl : this.prodUrl;
   }
 
@@ -108,6 +118,10 @@ class Stalcraft {
     } catch (error) {
       return { data: null, error: error as IError };
     }
+  }
+
+  public getOAuthUrl(redirectUrl: string) {
+    return this.utils.generateOAuthUrl(this.appId, redirectUrl);
   }
 
   public async getRegions() {
