@@ -1,8 +1,8 @@
 {
   "name": "stalcraft.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Stalcraft API Wrapper",
-  "main": "dist/index.js",
+  "main": "dist/index.d.ts",
   "types": "dist/index.d.ts",
   "scripts": {
     "dev": "nodemon ./src/index.ts",
